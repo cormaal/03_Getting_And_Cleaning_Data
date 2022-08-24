@@ -1,0 +1,121 @@
+---
+title: "M3_W2_Reading_from_MySQL"
+author: "Alexander Cormack"
+date: "20 August 2022"
+output: html_document
+---
+
+
+
+RMySQL installed by first installing RTools42 from the Rtools42 installer (https://cran.r-project.org/bin/windows/Rtools/rtools42/files/rtools42-5253-5107-signed.exe)
+
+
+```{r}
+library(RMySQL)
+```
+
+
+
+Example MySQL DB - UCSC database (http://genome.ucsc.edu/)
+
+How to connect: http://genome.ucsc.edu/goldenPath/help/mysql.html
+
+
+
+
+### Connecting and listing databases
+
+First ... connect to the target host and list the databases. "show databases"" is actually a MySQL command and not an R command that is being sent to the DB through the dbGetQuery function.
+Note that if the disconnect command functions correctly it will return TRUE. It is very important to disconnect from the server after we have collected the data.
+
+```{r}
+ucscDb <- dbConnect(MySQL(), user = "genome", host = "genome-euro-mysql.soe.ucsc.edu")
+result <- dbGetQuery(ucscDb, "show databases;"); dbDisconnect(ucscDb);
+```
+
+
+List the databases available within the MySQL server located at the host address by calling 'result':
+
+```{r}
+result
+```
+
+
+### Connecting to hg19 and listing tables
+
+We are going to focus on one of the databases ... the hg19 ... a particular build of the human genome. Then we will query the tables (think of them as dataframes) within the database. By calling the length function on the list we can see the number of tables:
+
+```{r}
+hg19 <- dbConnect(MySQL(), user = "genome", db = "hg19", host = "genome-euro-mysql.soe.ucsc.edu")
+allTables <- dbListTables(hg19)
+length(allTables)
+```
+
+We can then use indexing notation to return the names of some of those tables:
+
+
+```{r}
+allTables[1:5]
+```
+
+
+### Get dimensions of a specific table
+
+Now let's look at a specific table within the database, for example the 'affyU133Plus2' table (a microarray used to measure something about the genome). We can list the fields (think of them as columns in a dataframe) with the following command:
+
+```{r}
+dbListFields(hg19, "affyU133Plus2")
+```
+
+We can find out how many rows there are in the table with a specific MySQL command:
+
+```{r}
+dbGetQuery(hg19, "select count(*) from affyU133Plus2")
+```
+
+
+### Read from the table
+
+The following command can get one of the tables out:
+
+```{r, message=FALSE, warning=FALSE}
+affyData <- dbReadTable(hg19, "affyU133Plus2")
+head(affyData)
+```
+
+
+### Select a specific subset
+
+Sometimes tables are so large that R might not be able to handle them. So you may wish to read in only a specific subset. Here we are only going to query the database (not yet sucking out the data to our personal computer) for the values between 1 and 3 in the column 'misMatches' and then display the quantiles:
+
+```{r, message=FALSE, warning=FALSE}
+query <- dbSendQuery(hg19, "select * from affyU133Plus2 where misMatches between 1 and 3")
+affyMis <- fetch(query); quantile(affyMis$misMatches)
+```
+
+
+You may wish to see just a small portion of the table - say the first ten records - to be sure you are not sucking out some giant table. We need to clear the query from the remote server and it should return TRUE:
+
+```{r}
+affyMisSmall <- fetch(query, n = 10); dbClearResult(query)
+```
+
+
+If we look at the dimensions of that subset we can see that it only has 10 rows and the same 22 columns:
+
+```{r}
+dim(affyMisSmall)
+```
+
+
+### Don't forget to close the connection!
+
+A common mistake is to leave the conneciton open. Immediately after you have extracted the data you need close the connection ... the command should return TRUE:
+
+```{r}
+dbDisconnect(hg19)
+```
+
+
+
+See the Useful_resources file for further documentation.

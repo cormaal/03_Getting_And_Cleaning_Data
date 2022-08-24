@@ -1,0 +1,3 @@
+"0","google = handle(""http://google.com"")"
+"0","pg1 = GET(handle = google, path = ""/"")"
+"0","pg2 = GET(handle = google, path = ""search"")"

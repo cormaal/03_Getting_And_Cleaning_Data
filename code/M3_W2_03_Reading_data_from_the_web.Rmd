@@ -1,0 +1,84 @@
+---
+title: "M3_W2_03_Reading_data_from_the_web"
+author: "Alexander Cormack"
+date: "22 August 2022"
+output: html_document
+---
+
+
+### Webscraping
+
+Webscraping: programatically extracting data from teh HTML code of websites
+
+* It can be a great way to get data
+* Many websites have information you may want to programatically read
+* In some cases it is against teh terms of the service for the website
+* Attempting to read too many pages too quickly can get your IP address blocked
+
+http://en.wikipedia.org/wiki/Web_scraping
+
+
+Example: Google scholar
+
+First let's open a connection to a URL and then use the readLines function to read the html data. Be sure to close the connection afterwards
+
+```{r}
+GS_connection = url("http://scholar.google.com/citations?user=HI-I6C0AAAAJ&hl=en")
+htmlCode = readLines(GS_connection)
+close(GS_connection)
+htmlCode
+```
+
+
+
+In this format the data is a little hard to read. To overcome this we can use the XML package to parse the data. Since the XML package has some issues, here I use the function GET from the httr package in order to obtain the html code, and then pass it to htmlParse
+
+```{r}
+library(XML)
+library(httr)
+url <- "http://scholar.google.com/citations?user=HI-I6C0AAAAJ&hl=e"
+html2 = GET(url)
+content2 = content(html2, as = "text")
+parsedHTML = htmlParse(content2, asText = TRUE)
+xpathSApply(parsedHTML, "//title", xmlValue)
+```
+
+
+
+### Accessing websites with passwords
+
+```{r}
+pg1 = GET("http://httpbin.org/basic-auth/user/passwd")
+pg1
+```
+
+```{r}
+pg2 = GET("http://httpbin.org/basic-auth/user/passwd",
+          authenticate("user", "passwd"))
+pg2
+```
+
+```{r}
+names(pg2)
+```
+
+
+
+### Use handles
+
+Handles allow authentications to be saved across multiple websites. If you authenticate the handle once, the cookies will stay with that handle so you won't have to authenticate everytime you access the site.
+
+
+```{r}
+google = handle("http://google.com")
+pg1 = GET(handle = google, path = "/")
+pg2 = GET(handle = google, path = "search")
+```
+
+
+
+
+
+
+
+

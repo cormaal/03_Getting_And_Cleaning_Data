@@ -1,0 +1,44 @@
+---
+title: "M3_W2_04_Application_programming_interfaces"
+author: "Alexander Cormack"
+date: "22 August 2022"
+output: html_document
+---
+
+We'll be using the httr package to get website information.
+
+In order to get information from a website via an API first you will need to have a developer account. 
+
+
+```{r}
+library(rjson)
+require(httr)
+require(jsonlite)
+require(dplyr)
+library(purrr)
+
+bearer_token <- Sys.getenv("TWITTER_BEARER")
+headers <- c(`Authorization` = sprintf('Bearer %s', bearer_token))
+tweet_id <- "1394072770661822464"
+url_handle <- glue::glue("https://api.twitter.com/2/tweets/{status_id}/liking_users", status_id = tweet_id)
+response <- httr::GET(url = url_handle,
+                     httr::add_headers(.headers = headers))
+                     # query = params)
+obj <- httr::content(response, as = "text")
+x <- rjson::fromJSON(obj)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

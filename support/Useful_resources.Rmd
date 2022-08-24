@@ -1,0 +1,73 @@
+---
+title: "Useful_resources"
+author: "Alexander Cormack"
+date: "20 August 2022"
+output: html_document
+---
+
+
+
+### Official instructions for RMySQL
+
+https://biostat.app.vumc.org/wiki/Main/RMySQL
+
+
+
+### Potentially useful guide for RMySQL
+
+http://www.ahschulz.de/2013/07/23/installing-rmysql-under-windows/
+
+
+
+### RMySQL vignette
+
+https://cran.r-project.org/web/packages/RMySQL/RMySQL.pdf
+
+
+
+### List of commands
+
+https://www.pantz.org/software/mysql/mysqlcommands.html
+
+* Do not, do not, delete, add or join things from esembl. Only select
+* In general be careful with MySQL commands
+
+
+
+### A nice blog summarising some other commands
+
+https://www.r-bloggers.com/2011/08/mysql-and-r/
+
+
+
+### HDF (hierarchical data format) storage structure
+
+http://www.hdfgroup.org/
+
+
+
+### Install bioconductor packages (biocLite.R for installing the R HDF5 package)
+
+https://bioconductor.org/install/index.html#install-bioconductor-packages
+
+
+
+### rhdf5 tutorial
+
+https://www.bioconductor.org/packages/devel/bioc/vignettes/rhdf5/inst/doc/rhdf5.html
+
+
+### Web scraping
+
+https://en.wikipedia.org/wiki/Web_scraping
+
+http://cran.r-project.org/web/packages/httr/httr.pdf
+
+http://www/r-bloggers.com/?s=Web+Scraping
+
+
+### Application programming interfaces
+
+https://developer.twitter.com/en/docs/api-reference-index
+
+

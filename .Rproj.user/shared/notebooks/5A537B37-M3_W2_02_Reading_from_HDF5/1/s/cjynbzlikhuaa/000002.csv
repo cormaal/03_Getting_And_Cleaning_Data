@@ -1,0 +1,14 @@
+"0","BiocManager::install(c(""rhdf5""))"
+"2","'getOption(""repos"")' replaces Bioconductor standard repositories, see '?repositories' for details
+
+replacement repositories:
+    CRAN: https://cran.rstudio.com/
+
+"
+"2","Bioconductor version 3.15 (BiocManager 1.30.18), R 4.2.1 (2022-06-23 ucrt)
+"
+"2","package(s) not installed when version(s) same as current; use `force = TRUE` to re-install: 'rhdf5'"
+"2","Old packages: 'cluster', 'stringr', 'xfun'
+"
+"1","Update all/some/none? [a/s/n]: "
+"0","n"

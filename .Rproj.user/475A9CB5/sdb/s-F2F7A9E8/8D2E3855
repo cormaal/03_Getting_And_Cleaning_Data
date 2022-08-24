@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "---\ntitle: \"Useful_resources\"\nauthor: \"Alexander Cormack\"\ndate: \"20 August 2022\"\noutput: html_document\n---\n\n\n\n### Official instructions for RMySQL\n\nhttps://biostat.app.vumc.org/wiki/Main/RMySQL\n\n\n\n### Potentially useful guide for RMySQL\n\nhttp://www.ahschulz.de/2013/07/23/installing-rmysql-under-windows/\n\n\n\n### RMySQL vignette\n\nhttps://cran.r-project.org/web/packages/RMySQL/RMySQL.pdf\n\n\n\n### List of commands\n\nhttps://www.pantz.org/software/mysql/mysqlcommands.html\n\n* Do not, do not, delete, add or join things from esembl. Only select\n* In general be careful with MySQL commands\n\n\n\n### A nice blog summarising some other commands\n\nhttps://www.r-bloggers.com/2011/08/mysql-and-r/\n\n\n\n### HDF (hierarchical data format) storage structure\n\nhttp://www.hdfgroup.org/\n\n\n\n### Install bioconductor packages (biocLite.R for installing the R HDF5 package)\n\nhttps://bioconductor.org/install/index.html#install-bioconductor-packages\n\n\n\n### rhdf5 tutorial\n\nhttps://www.bioconductor.org/packages/devel/bioc/vignettes/rhdf5/inst/doc/rhdf5.html\n\n\n### Web scraping\n\nhttps://en.wikipedia.org/wiki/Web_scraping\n\nhttp://cran.r-project.org/web/packages/httr/httr.pdf\n\nhttp://www/r-bloggers.com/?s=Web+Scraping\n\n\n### Application programming interfaces\n\nhttps://developer.twitter.com/en/docs/api-reference-index\n\n\n",
+    "created" : 1661169054036.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1505691238",
+    "id" : "8D2E3855",
+    "lastKnownWriteTime" : 1661333408,
+    "last_content_update" : 1661333408684,
+    "path" : "C:/Users/CORMAAL/Desktop/DSEF/DS_Specialisation/03_Getting_And_Cleaning_Data/support/Useful_resources.Rmd",
+    "project_path" : "support/Useful_resources.Rmd",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

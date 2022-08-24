@@ -1,0 +1,133 @@
+---
+title: "M3_W2_02_Reading_from_HDF5"
+author: "Alexander Cormack"
+date: "22 August 2022"
+output: html_document
+---
+
+### HDF5
+
+* Used for storing large datasets
+* Supports storing a range of data types
+* Heirarchical data format
+* Groups containing zero or more datasets and metadata
+    + have a group header with group name and list of attributes
+    + have a group symbol table with a list of objects in the group
+* Datasets are multidimensional arrays of data elements with metadata that
+    + have a header with name, datatype, dataspace, and storage layout
+    + have a data array with the data
+
+http://www.hdfgroup.org/
+
+
+
+### R HDF5 package
+
+This is installed from Bioconductor http://bioconductor.org/ (primarily used for genomics but also has good 'big data' packages)
+
+It can be used to interface with hdf5 datasets
+
+First we need to check whether we need to install the BiocManager package (this is used to install packages from Bioconductor)
+
+```{r}
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install()
+```
+
+
+Then we can install the rhdf5 package with BiocManager
+
+```{r}
+BiocManager::install(c("rhdf5"))
+```
+
+
+Now let's load the package and create a file
+
+```{r}
+library(rhdf5)
+created = h5createFile("example.h5")
+created
+```
+
+
+
+### Create groups
+
+Now we can create groups - something like a folder strucuture - and list them
+
+```{r}
+created = h5createGroup("example.h5", "foo")
+created = h5createGroup("example.h5", "baa")
+created = h5createGroup("example.h5", "foo/foobaa")
+h5ls("example.h5")
+```
+
+
+
+### Write to groups
+
+We can use the h5write command to write a variety of different objects to specific groups in a file
+
+
+```{r}
+A = matrix(1:10, nr = 5, nc = 2)
+h5write(A, "example.h5", "foo/A")
+B = array(seq(0.1, 2.0, by = 0.1), dim = c(5, 2, 2))
+attr(B, "scale") <- "liter"
+h5write(B, "example.h5", "foo/foobaa/B")
+h5ls("example.h5")
+```
+
+
+### Write a dataset
+
+```{r}
+df = data.frame(1L:5L, seq(0, 1, length.out = 5), 
+                c("ab", "cde", "fghi", "a", "s"), stringsAsFactors = FALSE)
+h5write(df, "example.h5", "df")
+h5ls("example.h5")
+```
+
+
+
+### Reading data
+
+```{r}
+readA = h5read("example.h5", "foo/A")
+readB = h5read("example.h5", "foo/foobaa/B")
+readdf = h5read("example.h5", "df")
+readA
+readB
+readdf
+```
+
+
+
+### Writing and reading in chunks
+
+```{r}
+h5write(c(12, 13, 14), "example.h5", "foo/A", index = list(1:3, 1))
+h5read("example.h5", "foo/A")
+```
+
+
+
+```{r}
+h5read("example.h5", "foo/A", index = list(1:3, 1))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
