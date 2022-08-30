@@ -1,0 +1,87 @@
+---
+title: "M3_W2_05_Reading_From_Other_Sources"
+author: "Alexander Cormack"
+date: "30 August 2022"
+output: html_document
+---
+
+
+
+### There is a package for that
+
+The best way to find out if an R package exists is to Google 'data storage mechanism R package'
+
+So for example: 'MySQL R package'
+
+
+### Interacting more directly with files
+
+* file - open a connection to a text file
+
+* url - open a connection to a url
+
+* gzfile - open a connection to a .gz file
+
+* bzfile - open a connection to a .bz2 file
+
+* ?connections for more information
+
+* Remember to close connections
+
+
+### Foreign package
+
+Useful package if you work with people who use other programming languages or statistical packages
+
+Loads data from Minitab, S, SAS, SPSS, Stata, Systat, etc.
+
+Basic functions are read.foo where foo stands for the particular file extensions:
+
+* read.arff (Weka)
+* read.dta (Stata)
+* read.mtp (Minitab)
+* read.octave (Octave)
+* read.spss (SPSS)
+* read.xport (SAS)
+
+See the help page for more details
+
+http://cran.r-project.org/web/packages/foreign/foreign.pdf
+
+
+
+### Examples of other database packages
+
+* RPostgreSQL provides a DBI-compliant database connection from R
+    * Tutorial http://code.google.com/p/rpostgresql/
+    * Help file http://cran.r-project.org/web/packages/RPostgreSQL/RPostgreSQL.pdf
+
+* RODBC provides interfaces to multiple databases including PostgreSQL, MySQL, Microsoft Access and SGLite
+    * Tutorial http://cran.r-project.org/web/packages/RODBC/vignettes/RODBC.pdf
+    * file http://cran.r-project.org/web/packages/RODBC/RODBC.pdf
+
+* RMongo
+    * http://cran.r-project.org/web/packages/RMongo/RMongo.pdf
+    * example of RMongo http://www.r-bloggers.com/r-and-mongodb/
+ 
+
+### Reading images
+
+* jpeg http://cran.r-project.org/web/packages/jpeg/index.html
+* readbitmap http://cran.r-project.org/web/packages/readbitmap/index.html
+* png http://cran.r-project.org/web/packages/png/index.html
+* EBImage (Bioconductor) http://www.bioconductor.org/packages/2.13/bioc/html/EBImage.html
+
+
+### Reading GIS data
+
+* rdgal http://cran.r-project.org/web/packages/rgdal/index.html
+* rgeos http://cran.r-project.org/web/packages/rgeos/index.html
+* raster http://cran.r-project.org/web/packages/raster/index.html
+
+
+### Reading music data
+
+* tuneR http://cran.r-project.org/web/packages/tuneR
+* seewave http://rug.mnhn.fr/seewave/
+
