@@ -8,11 +8,11 @@ output: html_document
 
 ### Webscraping
 
-Webscraping: programatically extracting data from teh HTML code of websites
+Webscraping: programatically extracting data from the HTML code of websites
 
 * It can be a great way to get data
 * Many websites have information you may want to programatically read
-* In some cases it is against teh terms of the service for the website
+* In some cases it is against the terms of the service for the website
 * Attempting to read too many pages too quickly can get your IP address blocked
 
 http://en.wikipedia.org/wiki/Web_scraping
