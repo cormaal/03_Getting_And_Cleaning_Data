@@ -72,9 +72,51 @@ https://developer.twitter.com/en/docs/api-reference-index
 
 https://developer.twitter.com/en/docs/tutorials/getting-started-with-r-and-v2-of-the-twitter-api
 
+
 ### Managing secrets
 
 https://cran.r-project.org/web/packages/httr/vignettes/secrets.html
 
 
+### Foreign package
 
+http://cran.r-project.org/web/packages/foreign/foreign.pdf
+
+
+### RPostgreSQL
+
+* Tutorial http://code.google.com/p/rpostgresql/
+* Help file http://cran.r-project.org/web/packages/RPostgreSQL/RPostgreSQL.pdf
+
+
+### RODBC 
+
+* Tutorial http://cran.r-project.org/web/packages/RODBC/vignettes/RODBC.pdf
+* file http://cran.r-project.org/web/packages/RODBC/RODBC.pdf
+
+
+### RMongo
+
+* http://cran.r-project.org/web/packages/RMongo/RMongo.pdf
+* example of RMongo http://www.r-bloggers.com/r-and-mongodb/
+
+
+### Reading images
+
+* jpeg http://cran.r-project.org/web/packages/jpeg/index.html
+* readbitmap http://cran.r-project.org/web/packages/readbitmap/index.html
+* png http://cran.r-project.org/web/packages/png/index.html
+* EBImage (Bioconductor) http://www.bioconductor.org/packages/2.13/bioc/html/EBImage.html
+
+
+### Reading GIS data
+
+* rdgal http://cran.r-project.org/web/packages/rgdal/index.html
+* rgeos http://cran.r-project.org/web/packages/rgeos/index.html
+* raster http://cran.r-project.org/web/packages/raster/index.html
+
+
+### Reading music data
+
+* tuneR http://cran.r-project.org/web/packages/tuneR
+* seewave http://rug.mnhn.fr/seewave/
