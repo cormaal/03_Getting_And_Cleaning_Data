@@ -1,7 +1,0 @@
-"0","library(rhdf5)"
-"0","created = h5createFile(""example.h5"")"
-"0","created"
-"1","[1]"
-"1"," TRUE"
-"1","
-"
