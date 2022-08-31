@@ -137,13 +137,29 @@ numeric_data <- as.numeric(filtered_data)
 answer5 <- sum(numeric_data)
 
 
+# Here is some code to read in all the data into a dataframe and tidy it up a bit
 
+library(dplyr)
+
+data <- read.fwf("./data/getdata_wksst8110.for", widths = c(-1, 9, -5, 4, 4, -5, 4, 4, -5, 4, 4, -5, 4, 4))
+
+colnames(data) <- c("Week", "Nino1+2 (SST)", "Nino1+2 (SSTA)", "Nino3 (SST)", "Nino3 (SSTA)",
+                            "Nino34 (SST)", "Nino34 (SSTA)", "Nino4 (SST)", "Nino4 (SSTA)")
+
+data_cleaned <- data[-c(1:4, 2), ]
+
+row.names(data_cleaned) <- c()
+
+data_numeric <- data_cleaned %>% mutate_at(c("Nino1+2 (SST)", "Nino1+2 (SSTA)", "Nino3 (SST)", "Nino3 (SSTA)",
+                                             "Nino34 (SST)", "Nino34 (SSTA)", "Nino4 (SST)", "Nino4 (SSTA)"), as.numeric)
+
+head(data_numeric, 10)
 
 
 # CLEAN UP #################################################
 
 # Clear environment
-rm(list = ls()) 
+rm(list = ls())
 
 # Clear packages
 p_unload(all)  # Remove all add-ons
