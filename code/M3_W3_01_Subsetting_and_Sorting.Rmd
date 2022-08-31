@@ -1,0 +1,89 @@
+---
+title: "M3_W3_01_Subsetting_and_Sorting"
+author: "Alexander Cormack"
+date: "31 August 2022"
+output: html_document
+---
+
+# Subsetting - quick review
+
+We now have learnt how to load data ... now we want to manipulate that data and set it up as a tidy dataset.
+
+To practice this, let's create a dataframe and scramble the variables
+
+```{r}
+set.seed(13435)
+X <- data.frame("var1" = sample(1:5), "var2" = sample(6:10), "var3" = sample(11:15))
+X <- X[sample(1:5), ]; X$var2[c(1, 3)] = NA
+X
+```
+
+
+
+First thing we can do is subset a specific column by the column index:
+
+```{r}
+X[, 1]
+```
+
+
+I can do the same by using the column name:
+
+```{r}
+X[, "var1"]
+```
+
+
+I can also subset by both rows and columns at the same time by mixing row indices and column names:
+
+```{r}
+X[1:2, "var2"]
+```
+
+
+
+We can also subset using logicals 'ands' and 'ors'. Let's say we want to subset where var1 is less than or equal to 3
+and var3 is greater than 11:
+
+```{r}
+X[(X$var1 <= 3 & X$var3 > 11), ]
+```
+
+
+Here we want all rows where var1 is less than or equal to 3 or var3 is greater than 12:
+
+```{r}
+X[(X$var1 <= 3 | X$var3 > 12), ]
+```
+
+
+I can deal with NA values by using the 'which' command to filter them out:
+
+```{r}
+X[which(X$var2 > 8), ]
+```
+
+
+# Sorting
+
+
+
+
+
+
+
+# CLEAN UP #################################################
+
+# Clear environment
+rm(list = ls()) 
+
+# Clear packages
+p_unload(all)  # Remove all add-ons
+
+# Clear plots
+dev.off()  # But only if there IS a plot
+
+# Clear console
+cat("\014")  # ctrl+L
+
+# Clear mind :)
