@@ -1,0 +1,119 @@
+---
+title: "M3_W3_03_Creating_New_Variables"
+author: "Alexander Cormack"
+date: "1 September 2022"
+output: html_document
+---
+
+# Creating New Variables
+
+### Why create new variables?
+
+* Often the raw data won't have a value you are looking for
+* You will need to transform the data to get the values you would like
+* Usually you will add those values to the dataframes you are working with
+* Common variables to create
+    * missingness indicators
+    * "cutting up" quanitative indicators
+    * applying transformations to data with strange distributions
+
+
+### Creating sequences
+
+We will be using the Baltimore restaurant data for this lecture:
+
+```{r}
+restData <- read.csv("./data/Restaurants.csv")
+```
+
+
+
+Sometimes you need an index for your dataset. The command you use is 'seq' and there are three ways of defining how many values you want. Firstly, you can provide the first and last values and use the 'by =' parameter to specify the step for generating each element in the sequence:
+
+```{r}
+s1 <- seq(1, 10, by = 2)
+s1
+```
+
+
+Secondly, you can provide the first and last values and use the 'length =' parameter to specify the number of elements to be created in the sequence:
+
+```{r}
+s2 <- seq(1, 10, length = 4)
+s2
+```
+
+
+Lastly, you can create an index that loops over the values of a vector and creates a vector of the same length but with consecutive indices:
+
+```{r}
+x <- c(1, 3, 8, 25, 100)
+seq(along = x)
+```
+
+
+### Subsetting variables
+
+You may wish to create a variable that indicates which subset another variable comes from. Here we want to find out how many restaurants are 'near where I live in Baltimore'. So we search inside the neighbourhood variable to how many restaurants there are in two neighbourhoods near me. Then I append a 'nearMe' variable onto the the restaurant dataset so that I have a variable with the restaurants that are near me that I can access without having to use the longer %in% command:
+
+```{r}
+restData$nearMe <- restData$nghbrhd %in% c("Roland Park", "Homeland")
+table(restData$nearMe)
+```
+
+
+### Creating categorical variables fom numerical variables
+
+Here we divide the zipcodes into four different groups according to the quantiles they fall in. To do this we use the 'cut' function and define where the breaks between the categories should be:
+
+```{r}
+restData$zipGroups <- cut(restData$zipcode, breaks = quantile(restData$zipcode))
+table(restData$zipGroups)
+```
+
+
+We could then make a table to see which zipcodes fall into which cluster:
+
+```{r}
+table(restData$zipGroups, restData$zipcode)
+```
+
+
+An easier way to do that is to use the Hmisc package and the cut2 function:
+
+```{r}
+library(Hmisc)
+restData$zipGroups <- cut2(restData$zipcode, g = 4)
+table(restData$zipGroups)
+```
+
+
+We can also use the 'mutate' function from the plyr package to create a new version of a variable and simultaneoulsly add it to a dataset:
+
+```{r}
+library(Hmisc)
+library(plyr)
+restData2 <- mutate(restData, zipGroups = cut2(zipcode, g = 4))
+table(restData2$zipGroups)
+```
+
+
+
+### Common transformations
+
+Here is a list of the most common transformations you might be interested in using during exploratory data analysis:
+
+* abs(x) absolute value
+* sqrt(x) square root
+* ceiling(x) ceiling(3.475) is 4
+* floor(x) floor(3.475) is 3
+* round(x, digits = n) round(3.475, digits = 2) is 3.48
+* signif(x, digits = n) signif(3.475) is 3.5
+* cos(x), sin(x), etc.
+* log(x) natural logarithm
+* log2(x), log10(x) other common logs
+* exp(x) exponentiating
+
+http://www.biostat.jhsph.edu/~ajaffe/lec_winterR/Lecture%202.pdf
+
+https://www.statmethods.net/management/functions.html
