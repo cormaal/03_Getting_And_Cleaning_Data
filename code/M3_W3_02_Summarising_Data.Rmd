@@ -1,0 +1,211 @@
+---
+title: "M3_W3_02_Summarising_Data"
+author: "Alexander Cormack"
+date: "1 September 2022"
+output: html_document
+---
+
+# Summarising data
+
+In this lecture we will be using a dataset of restaurants in Baltimore downloaded as a csv file from:
+
+https://data.baltimorecity.gov/datasets/restaurants/explore?location=39.309995%2C-76.650639%2C11.16
+
+The file has been stored in the data directory. Let's now read it into a dataframe:
+
+```{r}
+restData <- read.csv("./data/Restaurants.csv")
+```
+
+
+
+
+### Head and tail
+
+Now let's do some exploratory analysis of the dataset. Let's start by viewing the head and tail of the dataset:
+
+```{r}
+head(restData, 3)
+```
+```{r}
+tail(restData, 3)
+```
+
+
+
+### Summary and str
+
+Now let's use the summary command to get some information on all of the variables. It will return
+the quantiles of quantatative variables:
+
+```{r}
+summary(restData)
+```
+
+
+The str command can also give us useful information, including the classes of all of the column variables:
+
+```{r}
+str(restData)
+```
+
+
+
+### Quantile
+
+We can use quantile to explore the variability of quantatative variables. Applying this to the council district, we can see that the smallest value is 1, the highest value is 14 and the median value is 9:
+
+```{r}
+quantile(restData$cncldst, na.rm = TRUE)
+```
+
+
+We can also pass probabilities to the command to look at different quantiles in the data:
+
+
+```{r}
+quantile(restData$cncldst, na.rm = TRUE, probs = c(0.5, 0.75, 0.9))
+```
+
+
+
+### Tables
+
+We could also create a table to look at a particular variable in tabular format. Applying this to the zipcode we can see most restaurants are in 21202. This also uncovers our first piece of dirty data - note the zipcode -21226. By default the table command does not report missing values, so useNA = "ifany" will return the number of missing values if there is a positive count.
+
+```{r}
+table(restData$zipcode, useNA = "ifany")
+```
+
+
+We can also make two-dimensional tables to get a sense of the relationship between variables. Here we are looking at the distribution of restaurants according to council district and zipcode:
+
+```{r}
+table(restData$cncldst, restData$zipcode)
+```
+
+
+
+### Check for missing values
+
+is.na will return a 1 if a value is missing and a 0 if it is present. So the sum will tell us how many missing values there are. In the example below there are no missing values in the Council District variable:
+
+```{r}
+sum(is.na(restData$cncldst))
+```
+
+
+We can use the 'any' command - it will return TRUE if there are any missing values:
+
+```{r}
+any(is.na(restData$cncldst))
+```
+
+
+We can use the 'all' command to see if all values of a variable satisfy a certain condition. We would expect all zipcodes to be greater than zero, but as we saw previously this is not the case:
+
+```{r}
+all(restData$zipcode > 0)
+```
+
+
+### Row and column sums
+
+We can sum rows or columns also to identify missing values. If we apply is.na to the entire dataset and then sum all the columns we will see if there are any missing values in any of the columns:
+
+```{r}
+colSums(is.na(restData))
+```
+
+
+We can also use 'all' to show if there are any missing values in the dataset:
+
+```{r}
+all(colSums(is.na(restData)) == 0)
+```
+
+
+
+###Values with specific characteristics
+
+Suppose I want to find all of the instances of the zipcode 21212:
+
+```{r}
+table(restData$zipcode == 21212)
+```
+
+
+If instead I want to find all the instances of multiple zipcodes I can use the %in% parameter:
+
+```{r}
+table(restData$zipcode %in% c(21212, 21213))
+```
+
+
+We can then use this logical variable to subset our dataset
+
+```{r}
+restData[restData$zipcode %in% c(21212, 21213), c("name", "zipcode")]
+```
+
+
+### Cross tabs
+
+Now we will look at the Berkeley Admissions dataset that we can see has four variables:
+
+```{r}
+data("UCBAdmissions")
+DF <- as.data.frame(UCBAdmissions)
+summary(DF)
+```
+
+
+
+Let's now compare the frequency of admission between males and females. With cross tabs we put the variable that we want to appear in the table on the left and the variables that we want to compare on the right. Lastly we indicate the dataset the cross tab should be applied on:
+
+```{r}
+xt <- xtabs(Freq ~ Gender + Admit, data=DF)
+xt
+```
+
+
+
+### Flat tables
+
+You can do cross tabs on a larger number of variables but as they are displayed in multiple two-dimensional tables the relationships can be hard to see. Here we are looking at the warpbreaks dataset where we have added another replicate variable for illustration purposes. So we create the cross tabs with the number of breaks appearing in the table and then broken down by all the other variables in the dataset. So with three different variables (replicate, wool and tension) we create multiple two-dimensional tables:
+
+```{r}
+warpbreaks$replicate <- rep(1:9, len = 54)
+xt <- xtabs(breaks ~ ., data = warpbreaks)
+xt
+```
+
+
+So instead we can make a flat table on the cross tabs we created above to display the data in a more compact and easier to read format:
+
+```{r}
+ftable(xt)
+```
+
+
+
+### Size of a dataset
+
+The last thing you might want to do is see the size of a dataset. Here we create some fake date and then call the object.size command:
+
+
+```{r}
+fakeData = rnorm(1e5)
+object.size(fakeData)
+```
+
+
+
+Since the output might not be the most transparent, we can call the print function and specify the units of the output:
+
+```{r}
+print(object.size(fakeData), units = "Mb")
+```
+
+
+
