@@ -125,3 +125,21 @@ http://cran.r-project.org/web/packages/foreign/foreign.pdf
 ### Subsetting and sorting
 
 http://www.biostat.jhsph.edu/~ajaffe/lec_winterR/Lecture%202.pdf
+
+
+### Creating new variables
+
+http://www.biostat.jhsph.edu/~ajaffe/lec_winterR/Lecture%202.pdf
+https://www.statmethods.net/management/functions.html
+http://plyr.had.co.nz/09-user/
+
+
+
+
+
+
+
+
+
+
+
