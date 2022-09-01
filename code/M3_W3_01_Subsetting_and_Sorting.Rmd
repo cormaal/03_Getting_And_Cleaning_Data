@@ -97,8 +97,7 @@ X[order(X$var1, X$var3), ]
 
 # Ordering with plyr
 
-The same can be done with the plyr package and the arrange command. The arrange command takes as arguments 
-a dataframe and a variable. The default is ascending order, but of course there is a command for descending order
+The same can be done with the plyr package and the arrange command. The arrange command takes as arguments a dataframe and a variable. The default is ascending order, but of course there is a command for descending order
 
 ```{r}
 library(plyr)
@@ -111,8 +110,7 @@ arrange(X, desc(var1))
 
 # Adding rows and columns
 
-This is quite straightforward. In the example below a vector (in this case a series of random normals) is assigned
-to a new column (var4)
+This is quite straightforward. In the example below a vector (in this case a series of random normals) is assigned to a new column (var4)
 
 ```{r}
 X$var4 <- rnorm(5)
@@ -120,9 +118,7 @@ X
 ```
 
 
-Another way you can do this is by using the cbind command. In the example below the vector rnorm(5)
-is bound as a column to the right side of X. Inverting the order of the dataframe and the vector will bind
-the column to the left side of the dataframe
+Another way you can do this is by using the cbind command. In the example below the vector rnorm(5) is bound as a column to the right side of X. Inverting the order of the dataframe and the vector will bind the column to the left side of the dataframe
 
 ```{r}
 Y <- cbind(X, rnorm(5))
@@ -131,9 +127,7 @@ Y
 
 
 
-Rows can be added by using the rbind command. Analogously, if place the vector to the right of the dataframe
-rbind will bind the vector to the bottom of the dataframe, and if you put it to the left it will bind it
-to the top of the dataframe
+Rows can be added by using the rbind command. Analogously, if place the vector to the right of the dataframe rbind will bind the vector to the bottom of the dataframe, and if you put it to the left it will bind it to the top of the dataframe
 
 ```{r}
 Z <- rbind(Y, rnorm(5))
