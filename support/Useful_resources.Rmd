@@ -120,3 +120,8 @@ http://cran.r-project.org/web/packages/foreign/foreign.pdf
 
 * tuneR http://cran.r-project.org/web/packages/tuneR
 * seewave http://rug.mnhn.fr/seewave/
+
+
+### Subsetting and sorting
+
+http://www.biostat.jhsph.edu/~ajaffe/lec_winterR/Lecture%202.pdf
