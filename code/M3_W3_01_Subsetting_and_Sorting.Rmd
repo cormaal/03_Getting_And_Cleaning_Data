@@ -66,24 +66,77 @@ X[which(X$var2 > 8), ]
 
 # Sorting
 
+The sort command will sort variables - the default is in increasing order. You can also put NA values at the end
+
+```{r}
+sort(X$var1)
+
+sort(X$var1, decreasing = TRUE)
+
+sort(X$var2, na.last = TRUE)
+```
+
+
+# Ordering
+
+We can also order a dataframe by a particular variable. Let's say we want to sort all of the values in var1
+in ascending order and order the values in var2 and var3 accordingly, i.e. sort the rows by the values in var1
+
+```{r}
+X[order(X$var1), ]
+```
 
 
 
+You can also order by multiple variables. So if in particular rows there are identical values in the two different variables it will sort them accordingly (N.B. there are no identical variables in the example below)
+
+```{r}
+X[order(X$var1, X$var3), ]
+```
+
+
+# Ordering with plyr
+
+The same can be done with the plyr package and the arrange command. The arrange command takes as arguments 
+a dataframe and a variable. The default is ascending order, but of course there is a command for descending order
+
+```{r}
+library(plyr)
+arrange(X, var1)
+
+arrange(X, desc(var1))
+```
 
 
 
-# CLEAN UP #################################################
+# Adding rows and columns
 
-# Clear environment
-rm(list = ls()) 
+This is quite straightforward. In the example below a vector (in this case a series of random normals) is assigned
+to a new column (var4)
 
-# Clear packages
-p_unload(all)  # Remove all add-ons
+```{r}
+X$var4 <- rnorm(5)
+X
+```
 
-# Clear plots
-dev.off()  # But only if there IS a plot
 
-# Clear console
-cat("\014")  # ctrl+L
+Another way you can do this is by using the cbind command. In the example below the vector rnorm(5)
+is bound as a column to the right side of X. Inverting the order of the dataframe and the vector will bind
+the column to the left side of the dataframe
 
-# Clear mind :)
+```{r}
+Y <- cbind(X, rnorm(5))
+Y
+```
+
+
+
+Rows can be added by using the rbind command. Analogously, if place the vector to the right of the dataframe
+rbind will bind the vector to the bottom of the dataframe, and if you put it to the left it will bind it
+to the top of the dataframe
+
+```{r}
+Z <- rbind(Y, rnorm(5))
+Z
+```
+
