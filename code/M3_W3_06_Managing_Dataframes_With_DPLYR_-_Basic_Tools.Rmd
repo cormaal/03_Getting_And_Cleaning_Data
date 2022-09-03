@@ -1,0 +1,97 @@
+---
+title: "M3_W3_06_Managing_Dataframes_With_DPLYR_-_Basic_Tools"
+author: "Alexander Cormack"
+date: "3 September 2022"
+output: html_document
+---
+
+# Managing Dataframes With DPLYR - Basic Tools
+
+For this lecture we will be using a dataset of daily pollution measurements in Chicago from 1987 to 2005.
+
+```{r}
+library(dplyr)
+
+chicago <- readRDS("./data/chicago.rds")
+str(chicago)
+```
+
+
+### Select
+
+The select function is used to view specific columns of a dataframe.
+
+We can look at the names of a dataframe with the names function. This is useful because one of the nice things about the dplyr package is that you can access the column variables with the select function using the column names and normal indexing notation - you don't need to use the column indices:
+
+```{r}
+names(chicago)
+```
+```{r}
+head(select(chicago, city:date))
+```
+
+
+
+We can also use the minus sign to view all of the columns except the ones we indicate:
+
+```{r}
+head(select(chicago, -(city:date)))
+```
+
+
+To do this outside of the dplyr package you would need to find the index of the city column, the index of the date column and then use standard slicing methods:
+
+```{r}
+i <- match("city", names(chicago))
+j <- match("date", names(chicago))
+head(chicago[, -(i:j)])
+```
+
+
+
+### Filter
+
+The filter function is used to subset rows of a dataframe based on particular conditions. So for example we might want to see all the rows of the Chicago dataset where pm25tmean2 is greater than 30:
+
+```{r}
+chic.f <- filter(chicago, pm25tmean2 > 30)
+head(chic.f)
+```
+
+
+
+We could also create a more complicated logical sequence my creating multiple conditions:
+
+```{r}
+chic.f <- filter(chicago, pm25tmean2 > 30 & tmpd > 80)
+head(chic.f, 10)
+```
+
+
+### Arrange
+
+Arrange is used to reorder the rows of a dataframe based on the values of a column. For example, we could arrange the dataframe by date so that the oldest date appears first and the most recent date appears last:
+
+```{r}
+chicago <- arrange(chicago, date)
+head(chicago, 3)
+tail(chicago, 3)
+```
+
+
+Of course we could arrange the dates in descending order as follows:
+
+```{r}
+chicago <- arrange(chicago, desc(date))
+head(chicago, 3)
+tail(chicago, 3)
+```
+
+
+
+
+
+
+
+
+

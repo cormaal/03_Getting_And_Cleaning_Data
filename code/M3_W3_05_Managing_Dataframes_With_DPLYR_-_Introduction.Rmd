@@ -1,0 +1,41 @@
+---
+title: "M3_W3_05_Managing_Dataframes_With_DPLYR_-_Introduction"
+author: "Alexander Cormack"
+date: "3 September 2022"
+output: html_document
+---
+
+# Managing Dataframes With DPLYR - Introduction
+
+
+
+The dplyr package is used for manipulating dataframes. The dataframe is a key structure in statistics and in R:
+
+* in dataframes there is one observation per row
+* in dataframes each column represents a variable or a measure or a characteristic
+* the primary implementation for dplyr is the default R implementation
+* there are other implementations for dplyr including the data table package relational database systems
+
+The dplyr package was developed by Hadley Wickham of RStudio. It is an optimised and distilled version of the plyr package (also by Hadley), and although it does not provide any new functionality per se, it does greatly simplify the existing functionality in R. It also provides a "grammar" (in particular, verbs) for data manipulation, and it is very fast as many key operations are coded in C++.
+
+
+### dplyr verbs
+
+* select - return a subset of the columns of a dataframe
+* filter - extract a subset of rows from a dataframe based on logical conditions
+* arrange - reorder rows of a dataframe
+* rename - rename variables in a dataframe
+* mutate - add new variables / columns or transform existing variables
+* summarise - generate summary statistics of different variables in the dataframe, possibly with strata
+
+There is also a handy print method that prevents you from printing a lot of data to the console.
+
+
+### dplyr properties
+
+All the dplyr functions have a similar format:
+
+* the first argument is a dataframe
+* the subsequent arguments describe what to do with it, and you can refer to columns in the dataframe directly without using the $ operator (just use the names)
+* the result is a new dataframe
+* dataframes must be properly formatted and annotated for all this to be useful
