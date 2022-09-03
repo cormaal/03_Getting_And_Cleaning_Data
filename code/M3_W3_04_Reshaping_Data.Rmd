@@ -1,0 +1,149 @@
+---
+title: "M3_W3_04_Reshaping_Data"
+author: "Alexander Cormack"
+date: "3 September 2022"
+output: html_document
+---
+
+# Reshaping Data
+
+### The goal is tidy data
+
+Tidy data has several principles:
+
+* each variable forms a column
+* each observation forms a row
+* each table/file sotres data about one kind of observation (e.g. people, hospitals)
+
+http://vita.had.co.nz/papers/tidy-data.pdf
+
+https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0026895
+
+
+### Start with reshaping
+
+For this part we will look at the mtcars dataset:
+
+```{r}
+library(reshape2)
+head(mtcars)
+```
+
+
+### Melting dataframes
+
+We will use the 'melt' function to combine two numerical variables into a single column. To do this we need to pass to the function the variables from our dataframe that are id variables and the variables that are measurable. This will return a dataframe with the measurable variables appearing in the same column and the id variables being repeated as many times as there are measurable variables.
+
+```{r}
+mtcars$carname <- rownames(mtcars)
+carMelt <- melt(mtcars, id.vars = c("carname", "gear", "cyl"), measure.vars = c("mpg", "hp"))
+head(carMelt)
+```
+```{r}
+tail(carMelt)
+```
+
+
+### Casting dataframes
+
+Once we have melted a dataset we can recast it in many different ways. Here we use the dcast function on our melted dataframe to look at the relationship between the number of cylinders and the variables. By default dcast returns the length of the variables for each cylinder, i.e. the number of distinct measurements. So we can see that for the 4 cylinder cars there were 11 different measurements for mpg and hp:
+
+```{r}
+cylData <- dcast(carMelt, cyl ~ variable)
+cylData
+```
+
+
+As the above example suggests, we can also pass an aggregation function to dcast. Here we use the mean:
+
+```{r}
+cylData <- dcast(carMelt, cyl ~ variable, mean)
+cylData
+```
+
+
+### Average values
+
+A very common thing to do is to get the average values of a column. Here we use the InsectSprays dataframe to show how we can sum all variables and find their averages:
+
+```{r}
+head(InsectSprays)
+```
+```{r}
+tapply(InsectSprays$count, InsectSprays$spray, sum)
+```
+
+
+
+Another way to do this is to use split-apply-combine. First of all, let's split the InsectSprays dataframe into a list of all of the sprays with all of their values:
+
+```{r}
+spIns <- split(InsectSprays$count, InsectSprays$spray)
+spIns
+```
+
+
+
+Then we can apply a function to that list. Here we apply the sum function to the list we just created:
+
+```{r}
+sprCount <- lapply(spIns, sum)
+sprCount
+```
+
+
+For further manipulation it may be easier to have a vector rather than a list. So we can use the unlist function to turn our list into a vector:
+
+```{r}
+unlist(sprCount)
+```
+
+
+To save ourselves a step, we could use the sapply function which combines both the apply and combine functions on our split list:
+
+```{r}
+sapply(spIns, sum)
+```
+
+
+
+### The plyr package
+
+The plyr package can also be used to the same end, with the advantage that it splits, applies and combines in a single step:
+
+```{r}
+library(plyr)
+ddply(InsectSprays,.(spray), summarise, sum = sum(count))
+```
+
+
+We can also use the plyr package to create a new variable. Here we create a dataframe of the same length as our original InsectSprays dataframe but with a variable indicating the sume of each of the different sprays. Note the ave function is used to summarise the data but the associated FUN here is 'sum' and not the default 'mean':
+
+```{r}
+spraySums <- ddply(InsectSprays,.(spray), summarise, sum = ave(count, FUN = sum))
+head(spraySums)
+```
+
+
+
+We could now add this new variable to our original dataframe if we wished to carry out further analyses.
+
+
+### More information
+
+* A tutorial from the developer of plyr:
+
+        http://plyr.had.co.nz/09-user/
+
+* A nice reshape tutorial:
+
+        http://www.slideshare.net/jeffreybreen/reshaping-data-in-r
+
+* A good plyr primer
+
+        http://www.r-bloggers.com/a-quick-primer-on-split-apply-combine-problems/
+
+* See also the functions:
+    * acast - for casting multidimensional arrays
+    * arrange - for faster reordering without using order() commands
+    * mutate - adding new variables
