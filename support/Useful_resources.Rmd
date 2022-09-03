@@ -134,12 +134,19 @@ https://www.statmethods.net/management/functions.html
 http://plyr.had.co.nz/09-user/
 
 
+### Tidy data
+
+http://vita.had.co.nz/papers/tidy-data.pdf
+
+https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0026895
 
 
+### Reshaping
 
+http://www.r-bloggers.com/a-quick-primer-on-split-apply-combine-problems/
 
+http://plyr.had.co.nz/09-user/
 
-
-
+http://www.slideshare.net/jeffreybreen/reshaping-data-in-r
 
 
