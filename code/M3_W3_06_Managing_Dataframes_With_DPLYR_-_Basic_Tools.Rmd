@@ -89,6 +89,47 @@ tail(chicago, 3)
 
 
 
+### Rename
+
+This is a simple function that allows you to rename a variable. It is however very useful because if you don't have this function renaming variables is a surprisingly difficult thing to do in R.
+
+Some of the variables in the chicago dataset are a bit of a mouthful and not very intuitive (e.g. pm25tmean2 or dptp).So we can use the function by passing the dataframe name, and then the new name and the old name:
+
+```{r}
+chicago <- rename(chicago, pm25 = pm25tmean2, dewpoint = dptp)
+head(chicago)
+```
+
+
+
+### Mutate
+
+The mutate function is used to transform existing variables or create new variables. Here we create a new variable called pm25detrend which is the pm25 variable with the mean subtracted from it (aim is to show deviations from the mean).
+
+```{r}
+chicago <- mutate(chicago, pm25detrend = pm25 - mean(pm25, na.rm = TRUE))
+head(select(chicago, pm25, pm25detrend))
+```
+
+
+### Group_by
+
+This function allows you to split a dataframe by certain categorical variables. In this example we create a temperature categorical variable that will indicate whether a given day is hot or cold. So first we create a factor variable with a logical operator (a hot day is greater than 80 degrees F). Then we use the group_by function to create a new data structure that has a slightly different format: 
+
+```{r}
+chicago <- mutate(chicago, tempcat = factor(1 * (tmpd > 80), labels = c("cold", "hot")))
+hotcold <- group_by(chicago, tempcat)
+hotcold
+```
+
+
+
+We could now use the summarise function on our new data structure to get some more insights about the data distribution on cold and hot days. Let's say we want to know what the mean value of pm25, the maximum value of ozone and the median value of nitrogen on both hot and cold days:
+
+```{r}
+summarise(hotcold, pm25 = mean(pm25, na.rm = TRUE), o3 = max(o3tmean2), no2 = median(no2tmean2))
+```
+
 
 
 
