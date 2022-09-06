@@ -150,3 +150,15 @@ http://plyr.had.co.nz/09-user/
 http://www.slideshare.net/jeffreybreen/reshaping-data-in-r
 
 
+### Merging data
+
+* the quick R data merging page: http://www.statmethods.net/management/merging.html
+
+* plyr information: http://plyr.had.co.nz/
+
+* types of joins: http://en.wikipedia.org/wiki/Join_(SQL)
+
+
+
+
+
