@@ -1,0 +1,86 @@
+---
+title: "M3_W3_07_Merging_Data"
+author: "Alexander Cormack"
+date: "6 September 2022"
+output: html_document
+---
+
+# Merging Data
+
+For this lecture we will be using two related datasets of peer review experiment data.
+
+```{r}
+reviews <- read.csv("./data/reviews.csv")
+solutions <- read.csv("./data/solutions.csv")
+head(reviews)
+```
+```{r}
+head(solutions)
+```
+
+
+### Merging data - merge()
+
+* Merges dataframes
+
+If we look at the names of the variables in these two datasets we can see that we can use the "solutions_id" variable from the reviews dataset and the "id" variable from the solutions dataset to merge the two datasets, i.e. these two variables refer to the same thing.
+
+```{r}
+names(reviews)
+```
+```{r}
+names(solutions)
+```
+
+
+
+* Important parameters: x, y, by, by.x, by.y, all
+    * x and y are two dataframes
+    * you can use by, by.x or by.y to tell merge() which of the columns it should merge by
+    * by default it merges by all of the columns that have a common name ... so by default merge() would try to merge by the variables "id", "start", "stop" and "time_left" even though they may not mean the same thing
+
+Instead we are going to tell merge() which variables it should merge on. Here we use all = TRUE which tells merge() that if there is a value in one dataset that does not appear in the other dataset then it should include another row but with missing values for the values that do not appear in the other dataframe:
+
+```{r}
+mergedData <- merge(reviews, solutions, by.x = "solution_id", by.y = "id", all = TRUE)
+head(mergedData)
+```
+
+
+### Using join in the plyr package
+
+Join can also perform the same function as merge() and is somewhat faster, although it does not have as many features. For example, you can only join two dataframes if they have common variable names, so it could not join the two dataframes above.
+
+Here we create two datasets with some randomised data, and we join the two and use the arrange function to order the data in ascending id number:
+
+```{r}
+library(plyr)
+df1 <- data.frame(id = sample(1:10), x = rnorm(10))
+df2 <- data.frame(id = sample(1:10), y = rnorm(10))
+arrange(join(df1, df2), id)
+```
+
+
+### If you have multiple dataframes
+
+This is relatively challenging to do with the merge() command, but if they have common variable names then it is fairly straightforward to join them with the plyr package. First we create a list of dataframes and then pass the list to the join_all command:
+
+```{r}
+df1 <- data.frame(id = sample(1:10), x = rnorm(10))
+df2 <- data.frame(id = sample(1:10), y = rnorm(10))
+df3 <- data.frame(id = sample(1:10), z = rnorm(10))
+dfList <- list(df1, df2, df3)
+arrange(join_all(dfList), id)
+```
+
+
+### More on merging data
+
+* the quick R data merging page: http://www.statmethods.net/management/merging.html
+
+* plyr information: http://plyr.had.co.nz/
+
+* types of joins: http://en.wikipedia.org/wiki/Join_(SQL)
+
+
+
