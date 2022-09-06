@@ -124,11 +124,51 @@ hotcold
 
 
 
-We could now use the summarise function on our new data structure to get some more insights about the data distribution on cold and hot days. Let's say we want to know what the mean value of pm25, the maximum value of ozone and the median value of nitrogen on both hot and cold days:
+We could now use the summarise function on our new data structure to get some more insights about the data distribution on cold and hot days. Let's say we want to know what the mean value of pm25, the maximum value of ozone and the median value of nitrogen was on both hot and cold days:
 
 ```{r}
 summarise(hotcold, pm25 = mean(pm25, na.rm = TRUE), o3 = max(o3tmean2), no2 = median(no2tmean2))
 ```
+
+
+We can also categorise the dataset by other variables. Here we categorise by the year:
+
+```{r}
+chicago <- mutate(chicago, year = as.POSIXlt(date)$year + 1900)
+years <- group_by(chicago, year)
+summarise(years, pm25 = mean(pm25, na.rm = TRUE), o3 = max(o3tmean2), no2 = median(no2tmean2))
+```
+
+
+We can use the dplyr package to 'chain' operations together using the %>% operator to produce the same result. One advantage is that you don't need to specify the dataframe for each operation as this is implied by the function being called. Here we are grouping by the month:
+
+```{r}
+chicago %>%
+        mutate(month = as.POSIXlt(date)$mon +1) %>%
+        group_by(month) %>%
+        summarise(pm25 = mean(pm25, na.rm = TRUE), o3 = max(o3tmean2), no2 = median(no2tmean2))
+```
+
+
+Once you learn dplyr "grammar" there are a few additional benefits:
+
+* dplyr can work with other dataframe "backends"
+* data.table for large fast tables
+* SQL interface for relational databases via the DBI package
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
