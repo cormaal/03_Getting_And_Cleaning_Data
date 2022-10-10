@@ -29,10 +29,16 @@
 # 125, 238,262
 # 153 ,236, 388 
 
+## Downloaded the file and placed it in the data folder
 
 UScomms_df <- (read.csv("./data/getdata_data_ss06hid.csv"))
 
+## From the codebook, Lot size is in the column 'ACR' - the value '3' indicates a house on ten or more acres
+## Sales of agricultural products is in the column 'AGS - the value '6' indicates $10,00 +
+
 agriculturalLogical <- UScomms_df$ACR == 3 & UScomms_df$AGS == 6
+
+## The following code returns the indices of the TRUE values of the logical vector
 
 which(agriculturalLogical == TRUE)
 
@@ -61,9 +67,11 @@ UScomms_df <- (read.csv("./data/getdata_data_ss06hid.csv")) %>%
 # -15259150 -594524 
 # -15259150 -10575416 
 
+jeff <- readJPEG("./data/getdata_jeff.jpg", native = TRUE)
 
+quantile(jeff, probs = 0.3)
 
-
+quantile(jeff, probs = 0.8)
 
 
 # Question 3 #################################################
