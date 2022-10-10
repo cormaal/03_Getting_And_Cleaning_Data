@@ -101,6 +101,19 @@ quantile(jeff, probs = 0.8)
 # 190 matches, 13th country is St. Kitts and Nevis
 # 189 matches, 13th country is Spain
 
+library(dplyr)
+
+GDP_df <- read.csv("./data/getdata_data_GDP.csv")
+
+EDU_df <- read.csv("./data/getdata_data_EDSTATS_Country.csv")
+
+GDP_vec <- GDP_df$X
+
+EDU_vec <- EDU_df$CountryCode
+
+match(GDP_vec, EDU_vec)
+
+sum(!is.na(matches))
 
 
 
