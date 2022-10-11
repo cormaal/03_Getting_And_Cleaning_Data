@@ -44,12 +44,16 @@ which(agriculturalLogical == TRUE)
 
 
 
+## The following is an alternative solution using dplyr and chaining
+
 library(dplyr)
 
-UScomms_df <- (read.csv("./data/getdata_data_ss06hid.csv")) %>%
-        select(ACR, AGS) %>%
-        mutate(row_num = 1:6496) %>%
-        filter(ACR == 3, AGS == 6)
+UScomms_df <- (read.csv("./data/getdata_data_ss06hid.csv")) %>%  ## read the US Communities dataframe
+        select(ACR, AGS) %>%  ## select only the lot size and sales of agricultural products columns
+        mutate(row_num = 1:6496) %>%  ## add a column to act as row numbers
+        filter(ACR == 3, AGS == 6)  ## filter the column according to the parameters defined above
+
+head(UScomms_df, 3)  ## print the first three results -> the row_num values give the requested result
 
 
 
@@ -67,11 +71,14 @@ UScomms_df <- (read.csv("./data/getdata_data_ss06hid.csv")) %>%
 # -15259150 -594524 
 # -15259150 -10575416 
 
-jeff <- readJPEG("./data/getdata_jeff.jpg", native = TRUE)
 
-quantile(jeff, probs = 0.3)
+## the JPEG file was downloaded and stored in the data folder
 
-quantile(jeff, probs = 0.8)
+jeff <- readJPEG("./data/getdata_jeff.jpg", native = TRUE)  ## read the JPEG file with the parameter native = TRUE
+
+quantile(jeff, probs = 0.3)  ## calculate the 30th percentile
+
+quantile(jeff, probs = 0.8)  ## calculate the 80th percentile
 
 
 # Question 3 #################################################
@@ -101,21 +108,38 @@ quantile(jeff, probs = 0.8)
 # 190 matches, 13th country is St. Kitts and Nevis
 # 189 matches, 13th country is Spain
 
-library(dplyr)
-
-GDP_df <- read.csv("./data/getdata_data_GDP.csv")
-
-EDU_df <- read.csv("./data/getdata_data_EDSTATS_Country.csv")
-
-GDP_vec <- GDP_df$X
-
-EDU_vec <- EDU_df$CountryCode
-
-match(GDP_vec, EDU_vec)
-
-sum(!is.na(matches))
 
 
+library(dplyr)  ## library for selecting and sorting
+
+GDP_df <- read.csv("./data/getdata_data_GDP.csv", stringsAsFactors=FALSE)  ## read in the GDP dataframe
+
+GDP_df$X.3 <- gsub(",", "", GDP_df$X.3) ## remove commas in the GDP column to facilitate character conversion
+
+EDU_df <- read.csv("./data/getdata_data_EDSTATS_Country.csv", stringsAsFactors=FALSE)  ## read in the education dataframe
+
+colnames(GDP_df)[1] <- "CountryCode"  ## change column name so common columns have same name to allow merging
+
+GDP_vec <- GDP_df$CountryCode  ## create a vector from the CountryCode column in GDP dataframe
+
+GDP_vec_clean <- GDP_vec[GDP_vec != ""]  ## remove the "" values in the vector
+
+EDU_vec <- EDU_df$CountryCode  ## create a vector from the CountryCode column in education dataframe
+
+matches <- match(GDP_vec_clean, EDU_vec)  ## create a vector of all of the matches between the two vectors
+
+matches_clean <- matches[!is.na(matches)]
+
+length(matches_clean)  ## the length of the vector equals the number of matches
+
+
+
+countries_GDP <- merge(x = GDP_df, y = EDU_df, by = "CountryCode", all = TRUE) %>%  ## merge the dataframes
+        select(CountryCode, Short.Name, "X.3") %>%  ## select only the coutry code, short name and GDP columns
+        transform(X.3 = as.numeric(X.3)) %>%  ## the GDP column is in character format -> transform to numeric
+        arrange(X.3)  ## sort by GDP ascending (by default)
+        
+head(countries_GDP, 13)  ### print first thirteen rows and read the country at row 13
 
 
 
@@ -133,7 +157,23 @@ sum(!is.na(matches))
 
 
 
+library(dplyr)  ## library for selecting and sorting
 
+GDP_df <- read.csv("./data/getdata_data_GDP.csv", stringsAsFactors=FALSE)  ## read in the GDP dataframe
+
+EDU_df <- read.csv("./data/getdata_data_EDSTATS_Country.csv", stringsAsFactors=FALSE)  ## read in the education dataframe
+
+colnames(GDP_df)[1] <- "CountryCode"  ## change column name so common columns have same name to allow merging
+
+colnames(GDP_df)[2] <- "Ranking" ## change the column name "Gross.domestic.product.2012" to something more manageable
+
+average_ranking <- merge(x = GDP_df, y = EDU_df, by = "CountryCode", all = TRUE) %>%  ## merge the dataframes
+        select(Income.Group, Ranking) %>%  ## select only the coutry code, Income.Group and GDP ranking columns
+        transform(Ranking = as.numeric(Ranking)) %>%  ## the GDP ranking column is in character format -> transform to numeric
+        group_by(Income.Group) %>%  ## group the dataframe by Income.Group
+        filter(!is.na(Income.Group), !is.na(Ranking)) %>%  ## filter out the NA values
+        summarise(mean = sprintf(mean(Ranking), fmt = '%#.6f')) %>%  ## calculate the mean GDP ranking for the grouped countries
+        print  ## print the result
 
 
 # Question 5 #################################################
@@ -147,10 +187,21 @@ sum(!is.na(matches))
 # 12
 
 
+library(dplyr)  ## library for selecting and sorting
 
+GDP_df <- read.csv("./data/getdata_data_GDP.csv", stringsAsFactors=FALSE)  ## read in the GDP dataframe
 
+EDU_df <- read.csv("./data/getdata_data_EDSTATS_Country.csv", stringsAsFactors=FALSE)  ## read in the education dataframe
 
+colnames(GDP_df)[1] <- "CountryCode"  ## change column name so common columns have same name to allow merging
 
+colnames(GDP_df)[2] <- "Ranking" ## change the column name "Gross.domestic.product.2012" to something more manageable
+
+ranking_df <- merge(x = GDP_df, y = EDU_df, by = "CountryCode", all = TRUE) %>%  ## merge the dataframes
+        select(Short.Name, Ranking, Income.Group) %>%  ## select only the coutry code, Income.Group and GDP ranking columns
+        transform(Ranking = as.numeric(Ranking)) %>%  ## the GDP ranking column is in character format -> transform to numeric
+        filter(Ranking <=38, Income.Group == "Lower middle income") %>%  ## filter out the NA values
+        print  ## print the result
 
 
 
