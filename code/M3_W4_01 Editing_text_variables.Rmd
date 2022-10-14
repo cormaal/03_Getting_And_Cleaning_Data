@@ -1,0 +1,196 @@
+---
+title: "M3_W4_01 Editing_text_variables"
+author: "Alexander Cormack"
+date: "2022-10-12"
+output: html_document
+---
+
+# Getting and cleaning data
+
+This lecture uses Baltimore City traffic camera data ... but the dataset is not available!!!
+
+### Fixing character vectors - tolower(), toupper()
+
+You can use these commands to convert all characters to lower or upper case
+Take for example column names that sometimes appear with mixed case. This can be annoying if you have to constantly input the column names.
+
+```{r}
+col_names <- c("address", "direction", "street", "crossStreet", "intersection", "Location.1")
+tolower(col_names)
+```
+
+### Fixing character vectors - strsplit()
+
+This command can be useful for splitting strings by some defined character.
+
+The important parameters are: x, split
+
+```{r}
+split_names <- strsplit(col_names, "\\.")
+split_names
+```
+
+### Quick aside - lists
+
+```{r}
+my_list <- list(letters = c("A", "b", "c"), numbers = 1:3, matrix(1:25, ncol = 5))
+head(my_list)
+```
+
+We can select the first element of the list:
+
+```{r}
+my_list[1]
+```
+
+We can subset by naming variables:
+
+```{r}
+my_list$letters
+```
+
+We can also subset the vector by taking the first element of the list:
+
+```{r}
+my_list[[1]]
+```
+
+### Fxing character vectors - sapply()
+
+sapply() applies a function to each element in a vector or list.
+
+The important parameters are: X, FUN
+
+Say for example we removed all of the full stops from the column names and now we only want the first element of the names.
+
+We can write a function to return only the first element and use sapply() to apply it to all of the column names:
+
+```{r}
+first_element <- function(x){x[1]}
+sapply(split_names, first_element)
+```
+
+Now let's play around with the Peer review data from a previous lecture
+
+```{r}
+reviews <- read.csv("./data/reviews.csv")
+solutions <- read.csv("./data/solutions.csv")
+
+head(reviews, 2)
+```
+
+```{r}
+head(solutions, 2)
+```
+
+
+### Fixing character vectors - sub()
+
+The sub() command substitutes characters in a string.
+
+Say for example we would like to remove the underscores in all of the column names:
+
+```{r}
+names(reviews)
+```
+
+```{r}
+sub("_", "", names(reviews), )
+```
+
+### Fixing character vectors - gsub()
+
+gsub() works like sub, only that it will substitute all of the instances of that character in a string.
+
+Compare the difference in the two blocks of code below:
+
+```{r}
+test_name <- "this_is_a_test"
+sub("_", "", test_name)
+```
+
+```{r}
+gsub("_", "", test_name)
+```
+
+### Finding values - grep(), grepl()
+
+grep() will search for a within a specific variable.
+
+
+grep("searchTerm", dataFrame$columnName)
+
+[1] 4 5 36  (i.e. the searchTerm appears in the 4th, 5th and 36th element of the columnName variable)
+
+
+table(grepl("searchTerm", dataFrame$columnName))
+
+FALSE   TRUE
+   77      3
+
+
+If you use the value=TRUE parameter grep() will return the value rather than the position
+
+grep("searchTerm", dataFrame$columnName, value=TRUE)
+
+[1] "searchTerm in the string"   "This is the searchTerm"   "The searchTerm again"
+
+
+If you want to be sure a value doesn't appear in a varialbe you can grep() the value and call the length of the result
+
+length(grep("someOtherTerm", dataFrame$columnName))
+
+[1] 0
+   
+### More useful string functions
+
+nchar will tell you the number of characters in a string
+
+```{r}
+nchar("Alexander Cormack")
+```
+
+You can subset a string by calling on a series of indices
+
+```{r}
+substr("Alexander Cormack", 1, 9)
+```
+
+You can paste two strings together with the paste function
+
+```{r}
+paste("Alexander", "Cormack")
+```
+
+You can set the character that you want to separate the pasted strings with the sep parameter
+
+```{r}
+paste("Alexander", "Cormack", sep = "$")
+```
+
+
+
+If you want to paste strings together with no separator then you can use the paste0 function
+
+```{r}
+paste0("Alexander", "Cormack")
+```
+
+You can trim excess whitespace with the str_trim function from the stringr package
+
+```{r}
+library(stringr)
+str_trim("     Alexander        ")
+```
+
+### Some important points about text in datasets
+
+- Names of variables should be
+    all lower case when possible
+    descriptive (Diagnosis vs Dx)
+    not duplicated
+    not have underscores or dots or whitespaces
+
+- Variables with character values
+    should usually be made into factor variables (depends on application)
+    should be descriptive (use TRUE/FALSE instead of 0//1 and Male/Female versus 0/1 or M/F)
