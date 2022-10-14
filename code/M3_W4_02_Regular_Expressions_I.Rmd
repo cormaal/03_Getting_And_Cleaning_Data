@@ -5,4 +5,136 @@ date: "14 October 2022"
 output: html_document
 ---
 
+# Regular Expressions I
 
+### Regular expressions
+
+Regular expressions can be thought of as a combination of literals and metacharacters.
+
+To draw an analogy with natural language, think of literal text forming the words of this language, and the metacharacters defining its grammar.
+
+Regular expressions have a rich set of metacharacters that allow us to search through strings to identify specific patterns of interest that might be very hard to identify with literals.
+
+
+### Literals
+
+The simplest pattern consists of only literals. The literal "nuclear" would match the folowing lines:
+
+- Ooh, I just learned that to keep myself alive after a nuclear blast! All I have to do is milk some rats then drink the milk. Awesome :}
+
+- Laozi says nuclear weapons are mas macho
+
+- Chaos in a country that has nuclear weapons - not good.
+
+- my nephew is trying to teach me nuclear physics, or possibly just trying to show me how smart he is so I'll be proud of him [which I am]
+
+- lol if you ever say "nuclear" people immediately think DEATH by radiation LOL
+
+
+The literal "Obama" would match all of the following lines:
+
+- Politics r dum. Not 2 long ago Clinton was sayin Obama was crap n now she sez vote 4 him n unite? WTF? Screw em both + Mcain. Go Ron Paul!
+
+- Clinton conceeds to Obama but will her followers listen?
+
+- Are we sure Chelsea didn't vote for Obama?
+
+- thinking ... Michelle Obama is terrific!
+
+- jetlag..no sleep...early morning to starbux..Ms. Obama was moving
+
+
+### Regular expressions
+
+The simplest pattern consists only of literals: a match occurs if the sequence of literals occurs anywhere in the text being tested.
+
+What if we only want the word "Obama"? Or sentences that end in the word "Clinton" or "clinton" or just the fragment "clinto"?
+
+We need a way to express:
+
+- whitespace word boundaries
+- sets of literals
+- the beginning and end of a line
+- alternatives ("war" or "peace")
+
+Metacharacters are the answer!!!
+
+
+Some metacharacters represent the start of a line.
+
+- ^i think
+
+will match the lines:
+
+- i think we all rule for participating
+- i think i have been outed
+- i think this will be quite fun actually
+- i think i need to go to work
+- i think i first saw zombo in 1999
+
+
+The $ represents the end of a line.
+
+- morning$
+
+will match these lines:
+
+- well they had something this morning
+- then had to catch a tram home in the morning
+- dog obedience school in the morning
+- and yes happy birthday i forgot to say it earlier this morning
+- I walked in the rain this morning
+- good morning
+
+
+### Character classes with []
+
+We can list a set of characters we will accept at a given point in the match
+
+- [Bb][Uu][Ss][Hh]
+
+will match these lines:
+
+- The democrats are playing, "Name the worst thing about Bush!"
+- I smelled the desert creosote bush, brownies, BBQ chicken
+- BBQ and bushwalking at Molonglo Gorge
+- Bush TOLD you that North Korea is part of the Axis of Evil
+- I'm listening to Bush - Hurricane (Album Version)
+
+
+You can also combine different metacharacters together.
+
+- ^[Ii] am
+
+will match these lines:
+
+- i am so angry at my boyfriend i can't bear to look at him
+- i am boycotting the apple store
+- I am twittering from iPhone
+- I am a very vengeful person when you ruin my sweetheart.
+- I am so over this. I need food. Mmm bacon...
+
+
+Similarly you can specify a range of letters [a-z] or [a-zA-Z]; notice that the order doesn't matter.
+
+- ^[0-9][a-zA-Z]
+
+will match these lines:
+
+- 7th inning stretch
+- 2nd half soon to begin. OSU did just win something
+- 3am - cant sleep - too hot still.. :(
+- 5ft 7 sent from heaven
+- 1st sign of starvation
+
+When used at the beginning of a character class teh ^ is also a metacharacter and indicates matching characters NOT in the indicated class
+
+- [^?.]$
+
+will match these lines:
+
+- i like basketballs
+- 6 and 9
+- dont worry... we all die anyway!
+- Not in Baghdad
+- helicopter under water? hmmm
