@@ -127,7 +127,7 @@ will match these lines:
 - 5ft 7 sent from heaven
 - 1st sign of starvation
 
-When used at the beginning of a character class teh ^ is also a metacharacter and indicates matching characters NOT in the indicated class
+When used at the beginning of a character class the ^ is also a metacharacter and indicates matching characters NOT in the indicated class
 
 - [^?.]$
 

@@ -47,7 +47,7 @@ will match these lines:
 - 'cause we keep getting earthquakes
 
 
-The alternatives ca be regular expressions and not just literals:
+The alternatives can be regular expressions and not just literals:
 
 - ^[Gg]ood|[Bb]ad
 

@@ -154,8 +154,8 @@ colnames(GDP_df)[1] <- "CountryCode"  ## change column name so common columns ha
 
 colnames(GDP_df)[2] <- "Ranking" ## change the column name "Gross.domestic.product.2012" to something more manageable
 
-average_ranking <- merge(x = GDP_df, y = EDU_df, by = "CountryCode", all = TRUE) %>%  ## merge the dataframes
-        select(Income.Group, Ranking) %>%  ## select only the coutry code, Income.Group and GDP ranking columns
+merge_df <- merge(x = GDP_df, y = EDU_df, by = "CountryCode", all = TRUE) %>%  ## merge the dataframes
+        select(Income.Group, Ranking) %>%  ## select only the country code, Income.Group and GDP ranking columns
         transform(Ranking = as.numeric(Ranking)) %>%  ## the GDP ranking column is in character format -> transform to numeric
         group_by(Income.Group) %>%  ## group the dataframe by Income.Group
         filter(!is.na(Income.Group), !is.na(Ranking)) %>%  ## filter out the NA values
