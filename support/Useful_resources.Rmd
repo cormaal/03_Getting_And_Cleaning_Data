@@ -169,6 +169,47 @@ Ultimately you want your dates and times as class "Date" or the classes "POSIXct
 For more information type ?POSIXlt
 
 
+### Data resources
+
+Open Government Sites
+
+- United Nations http://data.un.org/ 
+- United States https://data.gov/
+- United Kingdom https://www.data.gov.uk/
+- France https://www.data.gouv.fr/fr/
+- Australia https://www.data.gov.au/
+- Germany https://www.govdata.de/
+- HOng Kong https://data.gov.hk/en-data/dataset
+- Japan https://www.data.go.jp/
+- Many more https://data.gov/opendatasites/
+
+Others
+
+- Gapminder https://www.gapminder.org/
+- Analyze Survey Data for Free http://asdfree.com/
+- Kaggle https://www.kaggle.com/
+
+
+From this blog
+
+- https://medium.com/@gauravkumarindia/free-datasets-for-research-and-development-in-data-science-machine-learning-and-deep-learning-2b67580b73d4
+
+- IEEE Data Port: https://ieee-dataport.org/
+- UCI: https://archive.ics.uci.edu/ml/datasets.php
+- Datahub http://datahub.io/
+- Govt. of India http://data.gov.in/
+- Book-Crossing http://www.informatik.unifreiburg.de/~cziegler/BX/
+- World Health Organization http://www.who.int/research/en/
+- The World Bank http://data.worldbank.org/
+- NASA http://data.nasa.gov/
+- United States Government http://www.data.gov/
+- Machine Learning http://bitly.com/bundles/bigmlcom/2
+- Scientific Data University of Muenster http://data.uni-muenster.de/
+- Agriculture Datasets https://data.world/datasets/agriculture
+- Assorted Domains https://knoema.com/atlas/India/topics/Agriculture/datasets
+
+
+
 
 
 
