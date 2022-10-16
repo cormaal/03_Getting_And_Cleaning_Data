@@ -1,0 +1,140 @@
+---
+title: "M3_W4_04_Working_With_Dates"
+author: "Alexander Cormack"
+date: "2022-10-16"
+output: html_document
+---
+
+# Working with dates
+
+### Starting simple
+
+```{r}
+d1 <- date()
+d1
+```
+
+```{r}
+class(d1)
+```
+
+### Date class
+
+```{r}
+d2 <- Sys.Date()
+d2
+```
+
+```{r}
+class(d2)
+```
+
+The date class has some different properties that make it a little bit nicer in terms of analysing date data, but a little bit more difficult or tricky than dealing with just text files in some respects. So we might want to reformat the date into a different format more in line with out needs.
+
+
+### Formatting dates
+
+%d = day as number (0-31)
+%a = abbreviated weekday
+%A = unabbreviated weekday
+%m = month (00-12)
+%b = abbreviated month
+%B = unabbreviated month
+%y = 2-digit year
+%Y = 4-digit year
+
+```{r}
+format(d2, "%d/%m/%Y")
+```
+
+### Creating dates
+
+You can take character vectors representing dates and convert them into the date format. To do this we use the as.Date() function, which takes as arguments the character vector and the date formats they contain:
+
+```{r}
+x <- c("01/01/1960", "02/01/1960", "31/03/1960", "30/07/1960")
+z <- as.Date(x, format = "%d/%m/%Y")
+z
+```
+(Not sure why the format didn't come out as expected)
+
+These days can then be manipulated to calculate for example the time difference between them
+
+```{r}
+z[1] - z[2]
+```
+
+You can also convert that outcome into a numeric variable if you need it for some other calculation:
+
+```{r}
+as.numeric(z[1] - z[2])
+```
+
+### Converting to Julian
+
+You can find out the weekday or the month of a certain date with the following commands:
+
+```{r}
+weekdays(d2)
+```
+
+```{r}
+months(d2)
+```
+
+You can also convert it into a Julian date, which will give you the number of days since the origin and also the origin in question:
+
+```{r}
+julian(d2)
+```
+
+### Lubridate
+
+Lubridate allows you to convert a number into a date regardless of what the format is:
+
+```{r}
+library(lubridate)
+ymd("20221016")
+```
+
+```{r}
+mdy("09112001")
+```
+
+```{r}
+dmy("16102022")
+```
+
+Lubridate also handles times:
+
+```{r}
+ymd_hms("2022-10-16 14:27:45")
+```
+
+You can also set the timezone:
+
+```{r}
+ymd_hms("2022-10-16 14:27:45", tz = "Pacific/Auckland")
+```
+
+You can learn more about timezones with the relevant documentation:
+
+```{r}
+?Sys.timezone
+```
+
+
+### Some functions have slightly different syntax
+
+The base date package uses weekday() to get the weekday, whereas lubridate uses wday():
+
+```{r}
+x <- dmy(c("1jan2013", "2jan2013", "31mar2013", "30jul2013"))
+wday(x[1])
+```
+
+The output suggest that 1 Jan 2013 is the third day of the week - but what day is that? We can add the parameter label=TRUE to our command:
+
+```{r}
+wday(x[1], label=TRUE)
+```
